@@ -22,3 +22,9 @@ rl.question("Enter the amount of money you want to save up to: ", function(money
   });
 });
 
+function generatePlan(moneyGoal, numDays, depositOption) {
+    let deposit;
+    if ((depositOption == 1) && (numDays > 7)) {
+        deposit = moneyGoal;
+    }
+}

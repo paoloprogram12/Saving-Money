@@ -6,7 +6,25 @@
     <title>Login - Saving Money</title>
 
     <form id="loginForm">
-        
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password">
+        </div>
+
+        <div class="form-group">
+            <label class="showPassword">
+                <input type="checkbox" name="show" id="show">
+                Show Password
+            </label>
+        </div>
+
+        <button type="submit" class="login-btn">Login Account</button>
+
     </form>
 </head>
 <body>

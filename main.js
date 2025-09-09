@@ -28,3 +28,4 @@ function generatePlan(moneyGoal, numDays, depositOption) {
         deposit = moneyGoal;
     }
 }
+

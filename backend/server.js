@@ -53,3 +53,11 @@ app.post('/signup', async(req, res) => {
         );
     });
 });
+
+// creates the login
+app.post('/login', (req, res) => {
+    const { email, password } = req.body;
+    if (!email || !password) { return res.status(400).send('All fields are required'); }
+
+    
+})

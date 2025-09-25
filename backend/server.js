@@ -61,5 +61,15 @@ app.post('/login', (req, res) => {
 
     db.query('SELECT * FROM users WHERE email=?', [email], async (err, rows) => {
         if (err) { return res.status(500).send('Server Error'); }
-    })
+        if (!rows.length) { return res.status(400).send('Email not found'); }
+
+        const user = rows[0];
+        const ok = await bcrypt.compare(password, user.password);
+        if (!ok) { return res.status(401).send('Password is incorrect'); }
+    });
+});
+
+// tells console if everything works
+app.listen(port, () => {
+    console.log('API on http://localhost:${port');
 })

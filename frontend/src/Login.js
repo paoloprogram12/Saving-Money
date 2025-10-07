@@ -10,7 +10,7 @@ export default function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        if (!emaill || !password) { return setMsg('Email and password are required'); }
+        if (!email || !password) { return setMsg('Email and password are required'); }
 
             try {
             await axios.post("/login", { email, password });

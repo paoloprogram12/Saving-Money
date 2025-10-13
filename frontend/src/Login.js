@@ -10,16 +10,33 @@ export default function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setMsg('');
         if (!email || !password) { return setMsg('Email and password are required'); }
 
-            try {
-            await axios.post("/login", { email, password });
+        //     try {
+        //     await axios.post("/login", { email, password });
 
-            localStorage.setItem("token", "dev-demo");;
-            navigate("/dashboard");
-        } catch (err) {
-            setMsg(err.response?.data || "Login failed");
-            }
+        //     localStorage.setItem("token", "dev-demo");;
+        //     navigate("/dashboard");
+        // } catch (err) {
+        //     setMsg(err.response?.data || "Login failed");
+        //     }
+
+        try {
+        console.log('➡️ POST /login', { email });
+        const res = await axios.post('/login', { email, password }); // NOTE: relative URL
+        console.log('✅ /login ok', res.status, res.data);
+        localStorage.setItem('token', 'dev-demo');
+        navigate('/dashboard');
+    } catch (err) {
+        console.error('❌ /login failed', err?.response || err);
+        setMsg(err?.response?.data || 'Login failed');
+    }
+
+
+        // e.preventDefault();
+        // console.log('⚑ test navigate only');
+        // navigate('/dashboard');   // ← no axios here, just navigate
         };
 
         return (

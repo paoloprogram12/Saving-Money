@@ -5,7 +5,9 @@ const bcrypt = require('bcryptjs'); // used to hash out and compare passwords
 const cors = require('cors'); // allows which frontends are allowed to send requests to backend
 
 const app = express();
-const port = process.env.port || 5001;
+const port = process.env.PORT || 5001;
+
+app.get('/status', (req,res) => res.send('OK'));
 
 // cors
 app.use(cors({ origin: 'http://localhost:3000'}));
@@ -24,6 +26,13 @@ db.connect(err => {
     // throws error if db is unreachable
     if (err) { console.error('DB connect error', err); process.exit(1); }
     console.log('Connected to MySQL');
+});
+
+// logger
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  if (req.method !== 'GET') console.log('BODY:', req.body);
+  next();
 });
 
 // creates signup
@@ -47,11 +56,12 @@ app.post('/signup', async(req, res) => {
             'INSERT INTO users (username, email, password) VALUES (?, ?, ?)',
             [username, email, hash],
             (err2) => {
-                if (err) { return res.status(500).send('Error creating user'); }
+                if (err2) { return res.status(500).send('Error creating user'); }
                 res.send('Signup successful')
             }
         );
-    });
+      }
+    );
 });
 
 // creates the login
@@ -66,10 +76,12 @@ app.post('/login', (req, res) => {
         const user = rows[0];
         const ok = await bcrypt.compare(password, user.password);
         if (!ok) { return res.status(401).send('Password is incorrect'); }
+
+        res.send('Login successful');
     });
 });
 
 // tells console if everything works
 app.listen(port, () => {
-    console.log('API on http://localhost:${port');
+    console.log('API on http://localhost:${port}');
 })
